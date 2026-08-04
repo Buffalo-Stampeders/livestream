@@ -5091,5 +5091,21 @@
       applyFilters();
     })();
   </script>
+  <script>
+    (function(){
+      function sendHeight(){
+        var height = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'villages-livestream-resize', height: height }, '*');
+      }
+      window.addEventListener('load', sendHeight);
+      window.addEventListener('resize', sendHeight);
+      if(window.ResizeObserver){
+        new ResizeObserver(sendHeight).observe(document.body);
+      } else {
+        setInterval(sendHeight, 500);
+      }
+      sendHeight();
+    })();
+  </script>
 </body>
 </html>
