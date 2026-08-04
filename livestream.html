@@ -112,6 +112,26 @@
   }
   .hero-cta:hover{ background:#a5824f; transform: translateY(-1px); }
 
+  .hero-cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top: 22px;
+  }
+  .hero-cta-row .hero-cta{ margin-top:0; }
+
+  /* Mobile-only: open the NFHS Network app */
+  .hero-cta-app{ display:none; }
+  @media (max-width: 640px){
+    .hero-cta-app{
+      display:inline-flex;
+      background: transparent;
+      color: var(--tan) !important;
+      border: 1.5px solid var(--tan);
+    }
+    .hero-cta-app:hover{ background: rgba(188,155,106,0.15); }
+  }
+
   /* ---- next up strip ---- */
   .nextup{
     max-width: 1040px;
@@ -553,7 +573,10 @@
 <div class="hero-text">
 <h1>TVCS Live on <span>NFHS Network</span></h1>
 <p>Watch VHS Buffalo Athletics live from home. All home contests will stream live on the NFHS Network.</p>
+<div class="hero-cta-row">
 <a class="hero-cta" href="https://athletics.tvcs.org/sports/2026/7/29/create-livestream-account.aspx" rel="noopener" target="_blank">How To Create Your NFHS Network Account</a>
+<a class="hero-cta hero-cta-app" href="https://www.nfhsnetwork.com/schools/the-villages-the-villages-fl" rel="noopener" target="_blank">Open in NFHS Network App</a>
+</div>
 </div>
 </div>
 </div>
