@@ -145,35 +145,15 @@
     background: var(--tan);
     color: var(--forest-dark);
     border-radius: 10px;
-    padding: 0;
+    padding: 18px 24px;
     display:flex;
-    flex-wrap: wrap;
-    align-items:stretch;
-    justify-content: space-between;
-    gap: 0;
+    flex-direction: column;
+    gap: 10px;
     box-shadow: 0 14px 30px rgba(0,0,0,0.18);
     overflow:hidden;
   }
 
-  .nextup-thumb{
-    width: 220px;
-    min-height: 130px;
-    background-size: cover;
-    background-position: center;
-    flex-shrink:0;
-  }
-
-  .nextup-body{
-    padding: 18px 24px;
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 14px;
-    flex:1;
-  }
-
-  .nextup-card .label{
+  .nextup-label{
     font-size: 0.68rem;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -181,20 +161,53 @@
     opacity:0.75;
   }
 
-  .nextup-card .matchup{
-    font-size: 1.05rem;
-    margin-top: 4px;
+  .nextup-events{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .nextup-event{
+    display:flex;
+    align-items:stretch;
+    gap: 16px;
+    padding: 10px 0;
+  }
+  .nextup-event + .nextup-event{
+    border-top: 1px solid rgba(0,49,29,0.15);
+  }
+
+  .nextup-thumb{
+    width: 90px;
+    min-height: 64px;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink:0;
+  }
+
+  .nextup-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    flex:1;
+    min-width: 0;
+  }
+
+  .nextup-info .matchup{
+    font-size: 1.02rem;
     font-weight:700;
   }
 
-  .nextup-card .when{
+  .nextup-info .when{
     font-weight: 500;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     text-transform:none;
     letter-spacing:normal;
+    margin-top: 2px;
   }
 
-  .nextup-card .watch-btn{
+  .nextup-event .watch-btn{
+    align-self:center;
     background: var(--forest);
     color: #ffffff !important;
     text-decoration:none;
@@ -209,8 +222,9 @@
     display:inline-flex;
     align-items:center;
     gap:8px;
+    flex-shrink:0;
   }
-  .nextup-card .watch-btn:hover{ background: var(--forest-dark); transform: translateY(-1px); color:#ffffff !important; }
+  .nextup-event .watch-btn:hover{ background: var(--forest-dark); transform: translateY(-1px); color:#ffffff !important; }
 
   .dot{
     width:8px; height:8px; border-radius:50%;
@@ -235,10 +249,16 @@
   .section-head{
     display:flex;
     align-items:baseline;
+    flex-wrap: wrap;
     gap:14px;
     margin-bottom: 22px;
     border-bottom: 3px solid var(--forest);
     padding-bottom: 10px;
+  }
+
+  .section-head .sort-group{
+    margin-left: auto;
+    align-items: baseline;
   }
 
   .section-head h2{
@@ -354,6 +374,68 @@
   .tag.gender{ background: rgba(0,73,43,0.08); color: var(--forest); }
   .tag.sport{ background: var(--forest); color: #fff; }
   .tag.opponent-produced{ background: rgba(188,155,106,0.28); color: #6b5230; font-style: italic; }
+
+  /* ---- search ---- */
+  .search-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom: 18px;
+  }
+
+  .search-field{
+    position:relative;
+    flex:1;
+    max-width: 420px;
+    display:flex;
+    align-items:center;
+  }
+
+  .search-icon{
+    position:absolute;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    fill: #9a9a8e;
+    pointer-events:none;
+  }
+
+  .search-field input{
+    width:100%;
+    font-family:'Oswald', Arial Narrow, Arial, sans-serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    background:#fff;
+    border: 1.5px solid #d8d4c6;
+    border-radius: 999px;
+    padding: 10px 14px 10px 36px;
+    transition: border-color 0.15s ease;
+  }
+  .search-field input:focus{
+    outline:none;
+    border-color: var(--forest);
+  }
+  .search-field input::placeholder{
+    color:#a5a599;
+  }
+
+  .clear-search{
+    appearance:none;
+    background:none;
+    border:none;
+    color: var(--tan-solid);
+    font-family:'Oswald', Arial Narrow, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    cursor:pointer;
+    padding: 4px 2px;
+    display:none;
+  }
+  .clear-search.show{ display:inline-block; }
+  .clear-search:hover{ color: var(--forest); }
 
   /* ---- sport filter ---- */
   .filter-bar{
@@ -555,8 +637,9 @@
 
   @media (max-width: 640px){
     .hero-inner{ flex-direction:column; text-align:center; }
-    .nextup-card{ flex-direction:column; }
-    .nextup-thumb{ width:100%; height:150px; }
+    .nextup-event{ flex-wrap:wrap; }
+    .nextup-info{ width:100%; order:2; }
+    .nextup-event .watch-btn{ width:100%; justify-content:center; order:3; }
     .game-row{ flex-direction:column; }
     .game-thumb{ width:100%; height:140px; }
     .game-row-body{ flex-direction:column; align-items:flex-start; }
@@ -569,7 +652,7 @@
 <body>
 <div class="hero">
 <div class="hero-inner">
-<img alt="VHS Buffalo Athletics Live logo" src="https://dbukjj6eu5tsf.cloudfront.net/sidearm.sites/villagescharter.sidearmsports.com/images/2023/8/23/TVCS_Live_Green_1.png"/>
+<img alt="TVCS Live Logo" src="tvcs-live-logo.png"/>
 <div class="hero-text">
 <h1>TVCS Live on <span>NFHS Network</span></h1>
 <p>Watch VHS Buffalo Athletics live from home. All home contests will stream live on the NFHS Network.</p>
@@ -580,25 +663,23 @@
 </div>
 </div>
 </div>
-<div class="nextup">
+<div class="nextup" id="nextup-section">
 <div class="nextup-card">
-<div class="nextup-thumb" style="background-image:url('https://social.nfhsnetwork.com/gam641efaf7d0_1785696413117.png');"></div>
-<div class="nextup-body">
-<div>
-<div class="label"><span class="dot"></span>  Next Broadcast</div>
-<div class="matchup">Land O' Lakes at The Villages</div>
-<div class="when">Friday, August 14, 2026 — 7:00 PM EDT</div>
-</div>
-<a class="watch-btn" href="http://www.nfhsnetwork.com/events/the-villages-the-villages-fl/gam641efaf7d0" rel="noopener" target="_blank">
-          Watch on NFHS
-        </a>
-</div>
+<div class="nextup-label"><span class="dot"></span>  Next Broadcast</div>
+<div class="nextup-events" id="nextup-events"></div>
 </div>
 </div>
 <div class="section">
 <div class="section-head">
 <h2>Live Broadcasts</h2>
 <span class="count" id="game-count">6 games</span>
+</div>
+<div class="search-bar">
+<label class="search-field">
+<svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.49 19l-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"></path></svg>
+<input id="search-input" placeholder="Search by team or broadcast title…" type="text"/>
+</label>
+<button class="clear-search" id="clear-search" type="button">Clear</button>
 </div>
 <div aria-label="Filter by sport" class="filter-bar" id="filter-bar" role="group">
 <span class="filter-label">Filter</span>
@@ -636,13 +717,6 @@
 </label>
 <button class="clear-dates" id="clear-dates" type="button">Clear</button>
 </div>
-<label class="sort-group">
-<span class="filter-label">Sort Replays</span>
-<select id="sort-order">
-<option value="desc">Newest First</option>
-<option value="asc">Oldest First</option>
-</select>
-</label>
 </div>
 <div class="game-list" id="game-list">
 <div class="game-row" data-datetime="2026-08-14T19:00:00-04:00" data-gender="boys" data-sport="football">
@@ -4952,6 +5026,13 @@
 <div class="section-head">
 <h2>Watch On Demand</h2>
 <span class="count" id="ondemand-count">0 games</span>
+<label class="sort-group">
+<span class="filter-label">Sort</span>
+<select id="sort-order">
+<option value="desc">Newest First</option>
+<option value="asc">Oldest First</option>
+</select>
+</label>
 </div>
 <div class="game-list" id="ondemand-list"></div>
 <div class="no-results" id="ondemand-no-results">No on-demand replays match this filter yet.</div>
@@ -4983,15 +5064,26 @@
       var dateTo = document.getElementById('date-to');
       var clearDatesBtn = document.getElementById('clear-dates');
       var sortSelect = document.getElementById('sort-order');
+      var searchInput = document.getElementById('search-input');
+      var clearSearchBtn = document.getElementById('clear-search');
 
       var activeSport = 'all';
       var activeGender = 'all';
       var ondemandVisibleCount = PAGE_SIZE;
 
-      // 1. Sort any row dated before today (local calendar date) into Watch On Demand.
+      // Returns 'YYYY-MM-DD' for a given date, always in US Eastern time (America/New_York),
+      // so the live/on-demand cutoff matches the displayed EDT/EST game times regardless of
+      // which timezone the visitor's browser is in.
+      function easternDateKey(date){
+        return new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(date);
+      }
+
+      // 1. Sort any row into Watch On Demand once its Eastern calendar date has passed —
+      //    i.e. a broadcast stays in Live Broadcasts through 11:59:59 PM Eastern on game day.
       function moveExpiredGames(){
-        var todayStart = new Date();
-        todayStart.setHours(0, 0, 0, 0);
+        var todayKey = easternDateKey(new Date());
 
         var rows = Array.prototype.slice.call(liveList.querySelectorAll('.game-row'));
 
@@ -4999,8 +5091,9 @@
           var iso = row.getAttribute('data-datetime');
           if(!iso) return;
           var kickoff = new Date(iso);
+          var kickoffKey = easternDateKey(kickoff);
 
-          if(kickoff < todayStart){
+          if(kickoffKey < todayKey){
             var label = row.querySelector('.watch-label');
             if(label) label.textContent = 'Watch On Demand';
             row.classList.add('is-on-demand');
@@ -5034,6 +5127,14 @@
         var dt = new Date(row.getAttribute('data-datetime'));
         if(fromVal && dt < fromVal) return false;
         if(toVal && dt > toVal) return false;
+
+        var query = searchInput.value.trim().toLowerCase();
+        if(query){
+          var matchupEl = row.querySelector('.game-matchup');
+          var matchupText = matchupEl ? matchupEl.textContent.toLowerCase() : '';
+          if(matchupText.indexOf(query) === -1) return false;
+        }
+
         return true;
       }
 
@@ -5097,6 +5198,17 @@
         resetPagingAndApply();
       });
 
+      searchInput.addEventListener('input', function(){
+        clearSearchBtn.classList.toggle('show', searchInput.value.trim().length > 0);
+        resetPagingAndApply();
+      });
+
+      clearSearchBtn.addEventListener('click', function(){
+        searchInput.value = '';
+        clearSearchBtn.classList.remove('show');
+        resetPagingAndApply();
+      });
+
       sortSelect.addEventListener('change', function(){
         sortList(ondemandList, sortSelect.value);
         resetPagingAndApply();
@@ -5107,11 +5219,88 @@
         applyFilters();
       });
 
+      // 4. Populate the "Next Broadcast" hero card from every upcoming Live Broadcast row that
+      //    shares the soonest Eastern calendar date, so it never goes stale as games happen or
+      //    new ones get added, and shows all of them if more than one falls on that same date.
+      function updateNextBroadcast(){
+        var nextupSection = document.getElementById('nextup-section');
+        var eventsContainer = document.getElementById('nextup-events');
+        if(!nextupSection || !eventsContainer) return;
+
+        var liveRows = Array.prototype.slice.call(liveList.querySelectorAll('.game-row'));
+        if(liveRows.length === 0){
+          nextupSection.style.display = 'none';
+          return;
+        }
+
+        // liveList is already sorted ascending by kickoff, so the first row is the soonest.
+        var soonestKey = easternDateKey(new Date(liveRows[0].getAttribute('data-datetime')));
+        var sameDateRows = liveRows.filter(function(row){
+          return easternDateKey(new Date(row.getAttribute('data-datetime'))) === soonestKey;
+        });
+
+        eventsContainer.innerHTML = '';
+
+        sameDateRows.forEach(function(row){
+          var iso = row.getAttribute('data-datetime');
+          var kickoff = new Date(iso);
+          var matchupSource = row.querySelector('.game-matchup');
+          var linkSource = row.querySelector('a.watch-link');
+          var thumbSource = row.querySelector('.game-thumb');
+
+          var weekday = kickoff.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'America/New_York' });
+          var monthDay = kickoff.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' });
+          var time = kickoff.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
+          var tzAbbr = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short', timeZone: 'America/New_York' })
+            .formatToParts(kickoff).find(function(p){ return p.type === 'timeZoneName'; }).value;
+
+          var eventEl = document.createElement('div');
+          eventEl.className = 'nextup-event';
+
+          if(thumbSource){
+            var thumbEl = document.createElement('div');
+            thumbEl.className = 'nextup-thumb';
+            thumbEl.style.backgroundImage = thumbSource.style.backgroundImage;
+            eventEl.appendChild(thumbEl);
+          }
+
+          var infoEl = document.createElement('div');
+          infoEl.className = 'nextup-info';
+
+          var matchupEl = document.createElement('div');
+          matchupEl.className = 'matchup';
+          matchupEl.textContent = matchupSource ? matchupSource.textContent.trim() : '';
+          infoEl.appendChild(matchupEl);
+
+          var whenEl = document.createElement('div');
+          whenEl.className = 'when';
+          whenEl.textContent = weekday + ', ' + monthDay + ' — ' + time + ' ' + tzAbbr;
+          infoEl.appendChild(whenEl);
+
+          eventEl.appendChild(infoEl);
+
+          if(linkSource){
+            var btnEl = document.createElement('a');
+            btnEl.className = 'watch-btn';
+            btnEl.href = linkSource.href;
+            btnEl.target = '_blank';
+            btnEl.rel = 'noopener';
+            btnEl.textContent = 'Watch on NFHS';
+            eventEl.appendChild(btnEl);
+          }
+
+          eventsContainer.appendChild(eventEl);
+        });
+
+        nextupSection.style.display = '';
+      }
+
       moveExpiredGames();
       sortList(liveList, 'asc');       // Live Broadcasts: always sorted by date, soonest first
       sortList(ondemandList, 'desc');  // Watch On Demand: most recent replay first by default
       sortSelect.value = 'desc';
       applyFilters();
+      updateNextBroadcast();
     })();
   </script>
 <script>
