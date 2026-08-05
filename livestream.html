@@ -437,13 +437,38 @@
   .clear-search.show{ display:inline-block; }
   .clear-search:hover{ color: var(--forest); }
 
-  /* ---- sport filter ---- */
-  .filter-bar{
+  /* ---- sport/gender dropdown filters ---- */
+  .dropdown-filter-row{
     display:flex;
     align-items:center;
     flex-wrap:wrap;
-    gap:10px;
-    margin-bottom: 26px;
+    gap: 22px;
+    margin-bottom: 18px;
+  }
+
+  .dropdown-field{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .dropdown-field .filter-label{
+    margin-right:0;
+  }
+
+  .dropdown-field select{
+    font-family:'Oswald', Arial Narrow, Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--forest);
+    background: #fff;
+    border: 1.5px solid var(--forest);
+    border-radius: 6px;
+    padding: 7px 12px;
+    cursor:pointer;
+    min-width: 150px;
   }
 
   .filter-label{
@@ -453,29 +478,6 @@
     font-weight: 700;
     color: var(--tan-solid);
     margin-right: 4px;
-  }
-
-  .filter-pill{
-    appearance:none;
-    border: 1.5px solid var(--forest);
-    background: #fff;
-    color: var(--forest);
-    font-family:'Oswald', Arial Narrow, Arial, sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 8px 18px;
-    border-radius: 999px;
-    cursor:pointer;
-    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
-  }
-
-  .filter-pill:hover{ transform: translateY(-1px); }
-
-  .filter-pill.active{
-    background: var(--forest);
-    color: #fff;
   }
 
   .no-results{
@@ -646,6 +648,9 @@
     .watch-link{ width:100%; justify-content:center; }
     .date-sort-bar{ flex-direction:column; align-items:flex-start; gap:14px; }
     .date-range-group, .sort-group{ width:100%; }
+    .dropdown-filter-row{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .dropdown-field{ width:100%; }
+    .dropdown-field select{ flex:1; min-width:0; }
   }
 </style>
 </head>
@@ -681,28 +686,34 @@
 </label>
 <button class="clear-search" id="clear-search" type="button">Clear</button>
 </div>
-<div aria-label="Filter by sport" class="filter-bar" id="filter-bar" role="group">
-<span class="filter-label">Filter</span>
-<button class="filter-pill active" data-sport="all" type="button">All Sports</button>
-<button class="filter-pill" data-sport="baseball" type="button">Baseball</button>
-<button class="filter-pill" data-sport="basketball" type="button">Basketball</button>
-<button class="filter-pill" data-sport="cheerleading" type="button">Cheerleading</button>
-<button class="filter-pill" data-sport="flag-football" type="button">Flag Football</button>
-<button class="filter-pill" data-sport="football" type="button">Football</button>
-<button class="filter-pill" data-sport="soccer" type="button">Soccer</button>
-<button class="filter-pill" data-sport="softball" type="button">Softball</button>
-<button class="filter-pill" data-sport="swimming-and-diving" type="button">Swimming and Diving</button>
-<button class="filter-pill" data-sport="volleyball" type="button">Volleyball</button>
-<button class="filter-pill" data-sport="weightlifting" type="button">Weightlifting</button>
-<button class="filter-pill" data-sport="wrestling" type="button">Wrestling</button>
-</div>
-<div aria-label="Filter by gender" class="filter-bar" id="gender-filter-bar" role="group">
+<div class="dropdown-filter-row">
+<label class="dropdown-field">
+<span class="filter-label">Sport</span>
+<select id="sport-select">
+<option value="all">All Sports</option>
+<option value="baseball">Baseball</option>
+<option value="basketball">Basketball</option>
+<option value="cheerleading">Cheerleading</option>
+<option value="flag-football">Flag Football</option>
+<option value="football">Football</option>
+<option value="soccer">Soccer</option>
+<option value="softball">Softball</option>
+<option value="swimming-and-diving">Swimming and Diving</option>
+<option value="volleyball">Volleyball</option>
+<option value="weightlifting">Weightlifting</option>
+<option value="wrestling">Wrestling</option>
+</select>
+</label>
+<label class="dropdown-field">
 <span class="filter-label">Gender</span>
-<button class="filter-pill active" data-gender="all" type="button">All</button>
-<button class="filter-pill" data-gender="boys" type="button">Boys</button>
-<button class="filter-pill" data-gender="boys-and-girls" type="button">Boys and Girls</button>
-<button class="filter-pill" data-gender="coed" type="button">Coed</button>
-<button class="filter-pill" data-gender="girls" type="button">Girls</button>
+<select id="gender-select">
+<option value="all">All</option>
+<option value="boys">Boys</option>
+<option value="boys-and-girls">Boys and Girls</option>
+<option value="coed">Coed</option>
+<option value="girls">Girls</option>
+</select>
+</label>
 </div>
 <div class="date-sort-bar">
 <div class="date-range-group">
@@ -5058,8 +5069,8 @@
       var ondemandNoResults = document.getElementById('ondemand-no-results');
       var loadMoreWrap = document.getElementById('load-more-wrap');
       var loadMoreBtn = document.getElementById('load-more-btn');
-      var pills = document.querySelectorAll('#filter-bar .filter-pill');
-      var genderPills = document.querySelectorAll('#gender-filter-bar .filter-pill');
+      var sportSelect = document.getElementById('sport-select');
+      var genderSelect = document.getElementById('gender-select');
       var dateFrom = document.getElementById('date-from');
       var dateTo = document.getElementById('date-to');
       var clearDatesBtn = document.getElementById('clear-dates');
@@ -5171,22 +5182,14 @@
         applyFilters();
       }
 
-      pills.forEach(function(pill){
-        pill.addEventListener('click', function(){
-          pills.forEach(function(p){ p.classList.remove('active'); });
-          pill.classList.add('active');
-          activeSport = pill.getAttribute('data-sport');
-          resetPagingAndApply();
-        });
+      sportSelect.addEventListener('change', function(){
+        activeSport = sportSelect.value;
+        resetPagingAndApply();
       });
 
-      genderPills.forEach(function(pill){
-        pill.addEventListener('click', function(){
-          genderPills.forEach(function(p){ p.classList.remove('active'); });
-          pill.classList.add('active');
-          activeGender = pill.getAttribute('data-gender');
-          resetPagingAndApply();
-        });
+      genderSelect.addEventListener('change', function(){
+        activeGender = genderSelect.value;
+        resetPagingAndApply();
       });
 
       dateFrom.addEventListener('change', resetPagingAndApply);
