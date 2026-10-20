@@ -1,0 +1,6 @@
+# NFHS events the livestream reconcile routine must never add to livestream.html.
+# One event per line: event URL, then a tab-free note after " # ".
+# Match by the event ID (gamXXXXXXXXXX); ignore http/https and account-slug differences.
+# These are excluded from upcoming, on-demand/past, and restored lists, and from PRs.
+
+https://www.nfhsnetwork.com/events/lake-highland-prep-orlando-fl/gamed857687bb # 2026-10-20 Girls Volleyball playoffs vs Lake Highland Prep — duplicate of gam1b5dac8de2 (confirmed by Marty, 2026-10-20)
